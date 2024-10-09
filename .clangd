@@ -1,6 +1,7 @@
 CompileFlags:
     Add: [
         -Wall,
+        -std=c++17,
         -I../src,
         -I../src/straightline,
         -I../src/tiger/**
