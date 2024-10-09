@@ -2,5 +2,6 @@ CompileFlags:
     Add: [
         -Wall,
         -I../src,
-        -I../src/straightline
+        -I../src/straightline,
+        -I../src/tiger/**
     ]
