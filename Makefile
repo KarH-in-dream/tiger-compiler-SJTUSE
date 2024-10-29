@@ -7,6 +7,16 @@ IMAGE_NAME_FULL=$(IMAGE_NAME):$(IMAGE_VERSION)
 URL = https://ipads.se.sjtu.edu.cn/courses/compilers/labs/tigerlabs_env_v2.tar
 IMAGE_FILE = tigerlabs_env_v2.tar
 
+M_CTN_NAME = tiger2024
+
+mdoc-build:
+	docker create --name $(M_CTN_NAME) -t --privileged --dns=223.5.5.5\
+		-v $(shell pwd):/home/stu/tiger-compiler $(IMAGE_NAME_FULL)
+
+mdoc-run:
+	docker restart $(M_CTN_NAME)
+	docker exec -it $(M_CTN_NAME) bash
+
 docker-build:
 	docker build -t $(IMAGE_NAME_FULL) .
 
