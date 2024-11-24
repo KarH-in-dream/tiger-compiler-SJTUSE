@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.5.0)
 project(lab5-warmup VERSION 0.1.0 LANGUAGES C CXX)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(BUILD_TYPE "Debug")
 set(CMAKE_CXX_STANDARD 20)
