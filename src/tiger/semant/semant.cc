@@ -16,7 +16,7 @@ static type::VoidTy * const error_ty_ = nullptr;
 
 void AbsynTree::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                            err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// AbsynTree is short of "abstract syntax tree". Start from its root exp.
   /// @Param venv      : "value environment". Store variables and functions in current scope.
@@ -27,7 +27,7 @@ void AbsynTree::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *SimpleVar::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                 int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// SimpleVar: a symbol representing a var.
   /// Possible failures:
@@ -47,7 +47,7 @@ type::Ty *SimpleVar::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *FieldVar::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// FieldVar: a symbol representing field of a record.
   /// Possible failures:
@@ -82,7 +82,7 @@ type::Ty *FieldVar::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 type::Ty *SubscriptVar::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                    int labelcount,
                                    err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// SubscriptVar: access member in an array.
   /// Possible failures:
@@ -109,7 +109,7 @@ type::Ty *SubscriptVar::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *VarExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                              int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note: VarExp: An exp of single variable.
   assert(this->var_);
   return this->var_->SemAnalyze(venv, tenv, labelcount, errormsg);
@@ -117,25 +117,25 @@ type::Ty *VarExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *NilExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                              int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   return type::NilTy::Instance();
 }
 
 type::Ty *IntExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                              int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   return type::IntTy::Instance();
 }
 
 type::Ty *StringExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                 int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   return type::StringTy::Instance();
 }
 
 type::Ty *CallExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                               int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note: 
   /// CallExp: Call function with args.
   /// Possible failures:
@@ -183,7 +183,7 @@ type::Ty *CallExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *OpExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                             int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note: 
   /// In tiger, operators has 3 types:
   /// - Arithmetic: INT OP INT
@@ -241,7 +241,7 @@ type::Ty *OpExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *RecordExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                 int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// RecordExp: used to init a record object.
   /// Possible failures:
@@ -308,7 +308,7 @@ type::Ty *RecordExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *SeqExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                              int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note: SeqExp is sequence of exps, the last is to return.
   assert(this->seq_);
   type::Ty * result = error_ty_;
@@ -320,7 +320,7 @@ type::Ty *SeqExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *AssignExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                 int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// Assign returns void according to tiger manual.
   /// Possible failures:
@@ -351,7 +351,7 @@ type::Ty *AssignExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *IfExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                             int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// The else stm might be null.
   /// Possible failures:
@@ -386,7 +386,7 @@ type::Ty *IfExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *WhileExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// Be careful with BREAK and labelcount.
   /// Possible failures:
@@ -407,7 +407,7 @@ type::Ty *WhileExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *ForExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                              int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// Loop var should be added to venv of the loop.
   /// Possible failures:
@@ -438,7 +438,7 @@ type::Ty *ForExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *BreakExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// Possible failures:
   /// - not inside any loop (testcase 50)
@@ -450,7 +450,7 @@ type::Ty *BreakExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *LetExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                              int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note: deal declarations and check body.
   assert(this->decs_);
   assert(this->body_);
@@ -467,7 +467,7 @@ type::Ty *LetExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *ArrayExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                                int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// A new array object.
   /// Possible failures:
@@ -502,14 +502,14 @@ type::Ty *ArrayExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 type::Ty *VoidExp::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                               int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// Why is this a problem???
   return type::VoidTy::Instance();
 }
 
 void FunctionDec::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
                              int labelcount, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// A list of some function declarations.
   /// Functions in the same list can call each other, even if the caller is declared before the callee.
@@ -596,7 +596,7 @@ void FunctionDec::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv,
 
 void VarDec::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv, int labelcount,
                         err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// Declare a var with init value. Var type may be auto detected.
   /// Can override previous var dec with same name.
@@ -636,7 +636,7 @@ void VarDec::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv, int labelcount,
 
 void TypeDec::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv, int labelcount,
                          err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   /// KH-note:
   /// This is similiar to FunctionDec.
   /// Possible failures:
@@ -740,7 +740,7 @@ void TypeDec::SemAnalyze(env::VEnvPtr venv, env::TEnvPtr tenv, int labelcount,
 }
 
 type::Ty *NameTy::SemAnalyze(env::TEnvPtr tenv, err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   auto ty = tenv->Look(this->name_);
   if (ty == nullptr) {
     errormsg->Error(pos_, "undefined type %s", this->name_->Name().data());
@@ -751,13 +751,13 @@ type::Ty *NameTy::SemAnalyze(env::TEnvPtr tenv, err::ErrorMsg *errormsg) const {
 
 type::Ty *RecordTy::SemAnalyze(env::TEnvPtr tenv,
                                err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   return new type::RecordTy(this->record_->MakeFieldList(tenv, errormsg));
 }
 
 type::Ty *ArrayTy::SemAnalyze(env::TEnvPtr tenv,
                               err::ErrorMsg *errormsg) const {
-  /* TODO: Put your lab4 code here */
+  /* TASK: Put your lab4 code here */
   assert(this->array_);
   auto ty = tenv->Look(this->array_);
   if (ty == nullptr) {
