@@ -2,6 +2,9 @@ project(tiger-compiler)
 
 cmake_minimum_required(VERSION 3.2)
 
+# using clangd
+set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 if ("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
     message(FATAL_ERROR "In-source builds are not allowed.")
 endif ()
