@@ -4,7 +4,7 @@ target triple = "x86_64-pc-linux-gnu"
 
 %string = type { i32, i8* }
 
-@tigermain_framesize_global = constant i64 40
+@tigermain_framesize_global = constant i64 32
 
 declare void @flush()
 
@@ -92,4 +92,4 @@ if_next:                                          ; preds = %if_test
 }
 
 ; ===== Frame Information =====
-; tigermain -8 40
+; tigermain -8 32

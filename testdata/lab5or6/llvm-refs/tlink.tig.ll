@@ -6,7 +6,7 @@ target triple = "x86_64-pc-linux-gnu"
 
 @tigermain_framesize_global = constant i64 24
 @a_framesize_global = constant i64 24
-@b_framesize_global = constant i64 8
+@b_framesize_global = constant i64 16
 
 declare void @flush()
 
@@ -97,4 +97,4 @@ b:
 ; ===== Frame Information =====
 ; tigermain 0 24
 ; a 0 24
-; b 0 8
+; b 0 16

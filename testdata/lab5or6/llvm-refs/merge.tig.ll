@@ -7,13 +7,13 @@ target triple = "x86_64-pc-linux-gnu"
 %MyStruct = type { i32 }
 
 @tigermain_framesize_global = constant i64 56
-@readint_framesize_global = constant i64 40
+@readint_framesize_global = constant i64 32
 @isdigit_framesize_global = constant i64 24
 @0 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 @str = constant %string { i32 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0) }
 @1 = private unnamed_addr constant [2 x i8] c"9\00", align 1
 @str.1 = constant %string { i32 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0) }
-@skipto_framesize_global = constant i64 24
+@skipto_framesize_global = constant i64 16
 @2 = private unnamed_addr constant [2 x i8] c" \00", align 1
 @str.2 = constant %string { i32 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0) }
 @3 = private unnamed_addr constant [2 x i8] c"\0A\00", align 1
@@ -21,7 +21,7 @@ target triple = "x86_64-pc-linux-gnu"
 @4 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 @str.4 = constant %string { i32 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @4, i32 0, i32 0) }
 @readlist_framesize_global = constant i64 40
-@merge_framesize_global = constant i64 40
+@merge_framesize_global = constant i64 32
 @printint_framesize_global = constant i64 24
 @f_framesize_global = constant i64 24
 @5 = private unnamed_addr constant [2 x i8] c"0\00", align 1
@@ -781,11 +781,11 @@ if_next:                                          ; preds = %if_then, %if_test
 
 ; ===== Frame Information =====
 ; tigermain -24 56
-; readint -8 40
+; readint -8 32
 ; isdigit 0 24
-; skipto 0 24
+; skipto 0 16
 ; readlist -16 40
-; merge 0 40
+; merge 0 32
 ; printint 0 24
 ; printlist 0 24
 ; f 0 24

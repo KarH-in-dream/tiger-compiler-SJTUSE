@@ -4,7 +4,7 @@ target triple = "x86_64-pc-linux-gnu"
 
 %string = type { i32, i8* }
 
-@tigermain_framesize_global = constant i64 72
+@tigermain_framesize_global = constant i64 64
 @printboard_framesize_global = constant i64 40
 @0 = private unnamed_addr constant [3 x i8] c" O\00", align 1
 @str = constant %string { i32 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @0, i32 0, i32 0) }
@@ -14,7 +14,7 @@ target triple = "x86_64-pc-linux-gnu"
 @str.2 = constant %string { i32 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0) }
 @3 = private unnamed_addr constant [2 x i8] c"\0A\00", align 1
 @str.3 = constant %string { i32 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0) }
-@try_framesize_global = constant i64 40
+@try_framesize_global = constant i64 32
 
 declare void @flush()
 
@@ -563,6 +563,6 @@ opand_next8:                                      ; preds = %opand_right_test7, 
 }
 
 ; ===== Frame Information =====
-; tigermain -40 72
+; tigermain -40 64
 ; printboard -16 40
-; try -8 40
+; try -8 32

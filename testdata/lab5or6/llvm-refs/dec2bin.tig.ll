@@ -4,7 +4,7 @@ target triple = "x86_64-pc-linux-gnu"
 
 %string = type { i32, i8* }
 
-@tigermain_framesize_global = constant i64 24
+@tigermain_framesize_global = constant i64 16
 @dec2bin_framesize_global = constant i64 24
 @try_framesize_global = constant i64 24
 @0 = private unnamed_addr constant [5 x i8] c"\09->\09\00", align 1
@@ -165,6 +165,6 @@ try:
 }
 
 ; ===== Frame Information =====
-; tigermain 0 24
+; tigermain 0 16
 ; dec2bin 0 24
 ; try 0 24

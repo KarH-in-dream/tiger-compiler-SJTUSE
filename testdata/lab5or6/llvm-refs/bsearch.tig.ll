@@ -4,12 +4,12 @@ target triple = "x86_64-pc-linux-gnu"
 
 %string = type { i32, i8* }
 
-@tigermain_framesize_global = constant i64 40
+@tigermain_framesize_global = constant i64 32
 @nop_framesize_global = constant i64 24
 @0 = private unnamed_addr constant [1 x i8] zeroinitializer, align 1
 @str = constant %string { i32 0, i8* getelementptr inbounds ([1 x i8], [1 x i8]* @0, i32 0, i32 0) }
 @init_framesize_global = constant i64 24
-@bsearch_framesize_global = constant i64 56
+@bsearch_framesize_global = constant i64 48
 @try_framesize_global = constant i64 40
 @1 = private unnamed_addr constant [2 x i8] c"\0A\00", align 1
 @str.1 = constant %string { i32 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0) }
@@ -340,8 +340,8 @@ try:
 }
 
 ; ===== Frame Information =====
-; tigermain -16 40
+; tigermain -16 32
 ; nop 0 24
 ; init -8 24
-; bsearch -8 56
+; bsearch -8 48
 ; try 0 40

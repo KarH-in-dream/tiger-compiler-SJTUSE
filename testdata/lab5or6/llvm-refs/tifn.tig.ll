@@ -4,7 +4,7 @@ target triple = "x86_64-pc-linux-gnu"
 
 %string = type { i32, i8* }
 
-@tigermain_framesize_global = constant i64 40
+@tigermain_framesize_global = constant i64 32
 @g_framesize_global = constant i64 24
 @0 = private unnamed_addr constant [21 x i8] c"hey! Bigger than 3!\0A\00", align 1
 @str = constant %string { i32 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @0, i32 0, i32 0) }
@@ -110,5 +110,5 @@ if_next:                                          ; preds = %if_else, %if_then
 }
 
 ; ===== Frame Information =====
-; tigermain -8 40
+; tigermain -8 32
 ; g 0 24
