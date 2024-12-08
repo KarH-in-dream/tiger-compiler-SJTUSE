@@ -17,6 +17,9 @@ mdoc-run:
 	docker restart $(M_CTN_NAME)
 	docker exec -it $(M_CTN_NAME) bash
 
+mclean-tr:
+	rm -rf testdata/lab5or6/testcases/*.log testdata/lab5or6/testcases/*.ll
+
 docker-build:
 	docker build -t $(IMAGE_NAME_FULL) .
 

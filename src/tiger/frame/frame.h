@@ -71,11 +71,30 @@ protected:
 
 class Access {
 public:
-  /* TODO: Put your lab5-part1 code here */
+  /* TASK: Put your lab5-part1 code here */
 
+  /// KH-note: defined in PPT
+  /// %x_offset = add i64 %func_framesize, -k
+  /// %x_addr = add i64 %func_sp, %x_offset 
+  /// Its return value should be pure i64 value, not any type ptr
+  ///   bcuz Access knows nothing about types.
+  virtual llvm::Value *ToLLVMVal(llvm::Value *frame_addr_ptr) const = 0;
+  
   virtual ~Access() = default;
 };
 
+/// KH-note:
+/// Abstract Frame structure in tiger (From address higher to lower):
+/// - Frame local values. size = -offset_
+///   Note all local vars in lab5-part1 are stored in Frame.
+/// - Outgo Area. size = outgo_size_
+///   This area is used to store function params (including static link, 
+///     though Frame only regards static link as an extra formal).
+/// - Return addr.
+/// In translation, frame's size is a constant value. An example is in qsort.tig:
+///   Inside dosort() when calling init(), it passes (%0 - @dosort_framesize_global)
+///     as the first formal (as sp) to init().
+///   So although @dosort_framesize_global is unknown at this point, the addr will be correct.
 class Frame {
 public:
   int outgo_size_;
@@ -83,6 +102,12 @@ public:
   temp::Label *name_;
   std::list<frame::Access *> *formals_;
   llvm::GlobalVariable *framesize_global;
+  /// KH-note:
+  /// %sp points to return addr of current frame.
+  /// %fp(though actually not exists) points to caller of current frame's sp
+  ///   and is passed to Tiger Language's function as the first formal.
+  /// Thus %fp+8 points to caller's static link (also passed to func as second formal).
+  /// You should caution that this is only a valid value in current frame.
   llvm::Value *sp;
 
   Frame(int outgo_size, int offset, temp::Label *name,
@@ -163,6 +188,10 @@ private:
   std::list<Frag *> frags_;
 };
 
+/// KH-note:
+/// formals is used for args, each function arg corresponds with one bool.
+///   It signs whether an arg escapes.
+/// Escape args (and all other args in lab5-part1) should be stored at a fixed location on stack.
 frame::Frame *NewFrame(temp::Label *name, std::list<bool> formals);
 
 } // namespace frame

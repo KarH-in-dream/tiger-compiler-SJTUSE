@@ -38,7 +38,17 @@ public:
   
   void set_sp(llvm::Value *sp) { frame_->sp = sp; }
 
-  /* TODO: Put your lab5-part1 code here */
+  /* TASK: Put your lab5-part1 code here */
+
+  /// KH-note: defined in PPT. But in PPT parent and name are not pointer... Idk why.
+  static Level * NewLevel(tr::Level * parent, temp::Label * name, std::list<bool> formals) {
+    /// KH-note: 
+    /// add a new formal to pass static link, which should be marked escape.
+    /// The static link should be the first formal.
+    formals.push_front(true);
+    auto new_frame = frame::NewFrame(name, formals);
+    return new Level(new_frame, parent);
+  }
 };
 
 class ProgTr {
