@@ -69,10 +69,12 @@ inline int Scanner::lex() { return lex_(); }
 
 inline void Scanner::preCode() {
   // Optionally replace by your own code
+  /// KH-note: No need to do so ~
 }
 
 inline void Scanner::postCode(PostEnum_ type) {
   // Optionally replace by your own code
+  /// KH-note: No need to do so ~
 }
 
 inline void Scanner::print() { print_(); }

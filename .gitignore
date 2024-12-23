@@ -36,5 +36,8 @@ _deps
 # llvm source
 testdata/lab5or6/testcases/*.ll
 
+# what's this?
+*.tar
+
 # python cache
 scripts/lab5_test/__pycache__/
