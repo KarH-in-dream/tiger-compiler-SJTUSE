@@ -195,7 +195,7 @@ frame::Frame *NewFrame(temp::Label *name, std::list<bool> formals) {
  */
 assem::InstrList *ProcEntryExit1(std::string_view function_name,
                                  assem::InstrList *body) {
-  // TODO: your lab5 code here
+  // TASK: your lab5 code here
 
   /// KH-note: This function is called when body is already filled with function body assembly code.
   /// I can't be sure which callee_saved regs are used in the function, so I save all of them.
@@ -260,7 +260,7 @@ assem::Proc *ProcEntryExit3(std::string_view function_name,
   std::string prologue = "";
   std::string epilogue = "";
 
-  // TODO: your lab5 code here
+  // TASK: your lab5 code here
 
   /// KH-notes: 4+2 instructions.
   /// - define function name label + update %sp

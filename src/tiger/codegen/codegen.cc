@@ -249,7 +249,7 @@ InstrBuilder * InstrBuilder::addTemp(temp::Temp * temp, int CFG) {
 
 void CodeGen::InstrSel(assem::InstrList *instr_list, llvm::Instruction &inst,
                        std::string_view function_name, llvm::BasicBlock *bb) {
-  // TODO: your lab5 code here
+  // TASK: your lab5 code here
 
   /// KH-note: Instruction Selection for an Instr in current block
   /// instr_list is where the new instr should be appended to
