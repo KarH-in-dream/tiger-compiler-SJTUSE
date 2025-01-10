@@ -16,10 +16,23 @@ enum BinOp { PLUS = 0, MINUS, TIMES, DIV };
 
 // some data structures used by interp
 class Table;
-class IntAndTable;
+struct IntAndTable;
+struct IntTableExpL;
 
+/**
+ * Stm stands for Statement. Like a sentence (or a sentence block) in C.
+ * Context-free Grammar:
+ * - Stm -> Stm; Stm          (CompoundStm)
+ * - Stm -> id := Exp         (AssignStm)
+ * - Stm -> print(ExpList)    (PrintStm)
+ */
 class Stm {
  public:
+  /**
+   * The max number of args in PrintStm
+   * of all this Stm's subStms.
+   * Why calc this? Idk.
+   */
   virtual int MaxArgs() const = 0;
   virtual Table *Interp(Table *) const = 0;
 };
@@ -55,17 +68,37 @@ class PrintStm : public Stm {
   ExpList *exps;
 };
 
+/**
+ * Exp stands for Expression.
+ * Context-free Grammar: 
+ * - Exp -> id                (IdExp)
+ * - Exp -> num               (NumExp)
+ * - Exp -> Exp BinOp Exp     (OpExp)
+ * - Exp -> (Stm, Exp)        (EseqExp)
+ */
 class Exp {
-  // TODO: you'll have to add some definitions here (lab1).
+  // DO: you'll have to add some definitions here (lab1).
   // Hints: You may add interfaces like `int MaxArgs()`,
   //        and ` IntAndTable *Interp(Table *)`
+ public:
+  /**
+   * Exp may include Stms; else return 0 
+   * bcuz Exp in straightline has no function.
+   */
+  virtual int MaxArgs() const = 0;
+  /**
+   * IntAndTable stores its result value
+   * and all its side effects
+   */
+  virtual IntAndTable *Interp(Table *) const = 0;
 };
 
 class IdExp : public Exp {
  public:
   explicit IdExp(std::string id) : id(std::move(id)) {}
-  // TODO: you'll have to add some definitions here (lab1).
-
+  // DO: you'll have to add some definitions here (lab1).
+  int MaxArgs() const override;
+  IntAndTable *Interp(Table *) const override;
  private:
   std::string id;
 };
@@ -73,8 +106,9 @@ class IdExp : public Exp {
 class NumExp : public Exp {
  public:
   explicit NumExp(int num) : num(num) {}
-  // TODO: you'll have to add some definitions here.
-
+  // DO: you'll have to add some definitions here.
+  int MaxArgs() const override;
+  IntAndTable *Interp(Table *) const override;
  private:
   int num;
 };
@@ -83,7 +117,8 @@ class OpExp : public Exp {
  public:
   OpExp(Exp *left, BinOp oper, Exp *right)
       : left(left), oper(oper), right(right) {}
-
+  int MaxArgs() const override;
+  IntAndTable *Interp(Table *) const override;
  private:
   Exp *left;
   BinOp oper;
@@ -93,23 +128,40 @@ class OpExp : public Exp {
 class EseqExp : public Exp {
  public:
   EseqExp(Stm *stm, Exp *exp) : stm(stm), exp(exp) {}
-
+  int MaxArgs() const override;
+  IntAndTable *Interp(Table *) const override;
  private:
   Stm *stm;
   Exp *exp;
 };
 
+/**
+ * ExpList is an ordered set of Exp. For function args use.
+ * Context-free Grammar: 
+ * - ExpList -> Exp, ExpList  (PairExpList)
+ * - ExpList -> Exp           (LastExpList)
+ */
 class ExpList {
  public:
-  // TODO: you'll have to add some definitions here (lab1).
+  // DO: you'll have to add some definitions here (lab1).
   // Hints: You may add interfaces like `int MaxArgs()`, `int NumExps()`,
   //        and ` IntAndTable *Interp(Table *)`
+  virtual int MaxArgs() const = 0;
+  virtual int NumExps() const = 0;
+  /**
+   * This class is too messy to traverse...
+   * So I add one more return field. 
+   */
+  virtual IntTableExpL *Interp(Table *) const = 0;
 };
 
 class PairExpList : public ExpList {
  public:
   PairExpList(Exp *exp, ExpList *tail) : exp(exp), tail(tail) {}
-  // TODO: you'll have to add some definitions here (lab1).
+  // DO: you'll have to add some definitions here (lab1).
+  int MaxArgs() const override;
+  int NumExps() const override;
+  IntTableExpL *Interp(Table *) const override;
  private:
   Exp *exp;
   ExpList *tail;
@@ -118,11 +170,19 @@ class PairExpList : public ExpList {
 class LastExpList : public ExpList {
  public:
   LastExpList(Exp *exp) : exp(exp) {}
-  // TODO: you'll have to add some definitions here (lab1).
+  // DO: you'll have to add some definitions here (lab1).
+  int MaxArgs() const override;
+  int NumExps() const override;
+  IntTableExpL *Interp(Table *) const override;
  private:
   Exp *exp;
 };
 
+/**
+ * Table is a data structure similar to link-table
+ * that stores (string, int) kv pairs.
+ * This structure can also be built as a tree.
+ */
 class Table {
  public:
   Table(std::string id, int value, const Table *tail)
@@ -141,6 +201,15 @@ struct IntAndTable {
   Table *t;
 
   IntAndTable(int i, Table *t) : i(i), t(t) {}
+};
+
+struct IntTableExpL {
+  int i;
+  Table *t;
+  ExpList *next;
+
+  IntTableExpL(int i, Table *t, ExpList *next) :
+   i(i), t(t), next(next) {}
 };
 
 }  // namespace A

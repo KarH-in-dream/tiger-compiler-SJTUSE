@@ -39,5 +39,8 @@ testdata/lab5or6/testcases/*.ll
 # asm file
 testdata/lab5or6/testcases/*.s
 
+# what's this?
+*.tar
+
 # python cache
 scripts/lab5_test/__pycache__/
