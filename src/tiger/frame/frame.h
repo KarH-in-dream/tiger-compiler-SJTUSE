@@ -128,6 +128,13 @@ public:
  * Fragments
  */
 
+/// KH-note:
+/// Fragments of assembly program, including:
+/// - global tiger string values
+/// - global tiger framesize (tiger doesn't support other global values)
+/// - a whole function assem code
+/// Its OutputAssem impl is in output.cc
+/// As a student that does the lab, you can totally ignore it.
 class Frag {
 public:
   virtual ~Frag() = default;

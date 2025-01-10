@@ -1,5 +1,7 @@
 #include "tiger/frame/x64frame.h"
+#include "tiger/codegen/assem.h"
 #include "tiger/env/env.h"
+#include "tiger/frame/temp.h"
 
 #include <iostream>
 #include <llvm/IR/Function.h>
@@ -194,6 +196,44 @@ frame::Frame *NewFrame(temp::Label *name, std::list<bool> formals) {
 assem::InstrList *ProcEntryExit1(std::string_view function_name,
                                  assem::InstrList *body) {
   // TODO: your lab5 code here
+
+  /// KH-note: This function is called when body is already filled with function body assembly code.
+  /// I can't be sure which callee_saved regs are used in the function, so I save all of them.
+
+  /// KH-note:
+  /// Most of these regs are finally saved to stack, and other temp values may be allocated on stack,
+  ///   not in registers. That won't conflict with our stackframe design.
+  /// Static link saves the last %sp, so there can be any number of temp values between two frames.
+  ///   After all temp values won't escape, they won't be accessed through other frames.
+  
+  std::vector<std::pair<temp::Temp *, temp::Temp *>> save_rec;
+
+  for (auto callee_saved : reg_manager->CalleeSaves()->GetList()) {
+    auto save_temp = temp::TempFactory::NewTemp();
+    auto instr = new assem::OperInstr(
+      "movq `s0, `d0", 
+      new temp::TempList(save_temp), 
+      new temp::TempList(callee_saved),
+      nullptr);
+    body->Insert(body->GetList().begin(), instr);
+    save_rec.push_back({callee_saved, save_temp});
+  }
+  
+  /// KH-note: different from PPT, I create the return label here
+  ///   because I think these reg restoring instrs must not be skipped.
+  auto ret_label = new assem::LabelInstr(
+    std::string(function_name) + "_return");
+  body->Append(ret_label);
+
+  for (auto & [callee_saved, save_temp] : save_rec) {
+    auto instr = new assem::OperInstr(
+      "movq `s0, `d0", 
+      new temp::TempList(callee_saved), 
+      new temp::TempList(save_temp),
+      nullptr);
+    body->Append(instr);
+  }
+
   return body;
 }
 
@@ -221,6 +261,50 @@ assem::Proc *ProcEntryExit3(std::string_view function_name,
   std::string epilogue = "";
 
   // TODO: your lab5 code here
+
+  /// KH-notes: 4+2 instructions.
+  /// - define function name label + update %sp
+  /// (original function body)
+  /// - reload %sp + retq
+  /// and pseudo-code before and after body 
+  ///   (I simply ignore it; the lab has added everything needed in output.cc)
+
+  auto rsp_ = reg_manager->GetRegister(frame::X64RegManager::Reg::RSP);
+  auto rax_ = reg_manager->GetRegister(frame::X64RegManager::Reg::RAX);
+  auto rdi_ = reg_manager->GetRegister(frame::X64RegManager::Reg::RDI);
+
+  /// KH-note: an label that signs beginning of the function
+  auto instr_label = new assem::LabelInstr(std::string(function_name));
+  auto instr_movdsp = new assem::OperInstr(
+    "movq " + std::string(function_name) + "_framesize_global(%rip), `d0", 
+    new temp::TempList(rax_),
+    new temp::TempList(), 
+    nullptr);
+  auto instr_subsp = new assem::OperInstr(
+    "subq `s0, %rsp", 
+    new temp::TempList({ rsp_ }),
+    new temp::TempList({ rax_, rsp_ }), 
+    nullptr);
+  body->Insert(body->GetList().begin(), instr_subsp);
+  body->Insert(body->GetList().begin(), instr_movdsp);
+  body->Insert(body->GetList().begin(), instr_label);
+
+  auto instr_movdsp2 = new assem::OperInstr(
+    "movq " + std::string(function_name) + "_framesize_global(%rip),`d0", 
+    new temp::TempList(rdi_),
+    new temp::TempList(), 
+    nullptr);
+  auto instr_addsp = new assem::OperInstr(
+    "addq `s0, %rsp", 
+    new temp::TempList({ rsp_ }),
+    new temp::TempList({ rdi_, rsp_ }), 
+    nullptr);
+  auto instr_ret = new assem::OperInstr(
+    "retq", nullptr, nullptr, nullptr);
+  body->Append(instr_movdsp2);
+  body->Append(instr_addsp);
+  body->Append(instr_ret);
+
   return new assem::Proc(prologue, body, epilogue);
 }
 

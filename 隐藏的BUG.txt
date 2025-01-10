@@ -8,3 +8,5 @@
 3.semant部分，假设有一if-then-else语句，then子句break，则不应当视为有误(该死的break)。
 4.translation部分，op_need_cond解决方案无法较好地解决使用if表示i1条件的问题，也没有处理一个i32和一个i1的比较。
 5.lab5-part1的代码异常混乱，我严重怀疑其中还有不少没考虑到的情况，虽然它足以通过lab测试。
+6.lab5-part2有一些过分tricky的处理，严重依赖tiger语言的feature。
+7.lab5-part2的cmp条件翻译可能有漏洞。
