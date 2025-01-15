@@ -333,6 +333,14 @@ void CodeGen::InstrSel(assem::InstrList *instr_list, llvm::Instruction &inst,
         ->build();
       instr_list->Append(move_rax_instr);
 
+      auto RHS_temp = temp::TempFactory::NewTemp();
+      auto move_rhs_instr = 
+        InstrBuilder("movq", function_name, this)
+        .addValue(RHS, InstrBuilder::AS_SRC)
+        ->addTemp(RHS_temp, InstrBuilder::AS_DST)
+        ->build();
+      instr_list->Append(move_rhs_instr);
+
       auto cqto_instr = new assem::OperInstr(
         "cqto", 
         new temp::TempList(rdx_), 
@@ -342,7 +350,7 @@ void CodeGen::InstrSel(assem::InstrList *instr_list, llvm::Instruction &inst,
       
       auto oper_instr = 
         InstrBuilder("idivq", function_name, this)
-        .addValue(RHS, InstrBuilder::AS_SRC)
+        .addTemp(RHS_temp, InstrBuilder::AS_SRC)
         ->build();
       oper_instr->src_->Append(rax_);
       oper_instr->dst_->Append(rax_);
@@ -507,11 +515,20 @@ void CodeGen::InstrSel(assem::InstrList *instr_list, llvm::Instruction &inst,
     auto func = CI->getCalledFunction();
     auto call_instr = new assem::OperInstr(
       "call " + func->getName().str(),
-      new temp::TempList(rax_),
+      /// KH-note: I shall suppose all caller saved regs have been changed
+      reg_manager->CallerSaves(),
       new temp::TempList(),
       nullptr
     );
     instr_list->Append(call_instr);
+    /// KH-note: tell lab6 these temp values (may) have been changed
+    auto call_sink = new assem::OperInstr(
+      "",
+      new temp::TempList(),
+      reg_manager->CallerSaves(),
+      nullptr
+    );
+    instr_list->Append(call_sink);
 
     auto res_instr = 
       InstrBuilder("movq", function_name, this)
