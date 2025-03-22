@@ -1,120 +1,35 @@
 # Tiger Compiler Labs in C++
 
-## Contents
+## 学术诚信
 
-- [Tiger Compiler Labs in C++](#tiger-compiler-labs-in-c)
-  - [Contents](#contents)
-  - [Overview](#overview)
-  - [Difference Between C Labs and C++ Labs](#difference-between-c-labs-and-c-labs)
-  - [Installing Dependencies](#installing-dependencies)
-  - [Compiling and Debugging](#compiling-and-debugging)
-  - [Testing Your Labs](#testing-your-labs)
-  - [Submitting Your Labs](#submitting-your-labs)
-  - [Formatting Your Codes](#formatting-your-codes)
-  - [Other Commands](#other-commands)
-  - [Contributing to Tiger Compiler](#contributing-to-tiger-compiler)
-  - [External Documentations](#external-documentations)
+\^禁止(禁止禁止)\*抄袭\$
 
 ## Overview
 
-We rewrote the Tiger Compiler labs using the C++ programming language because some features in C++ like inheritance and polymorphism
-are more suitable for these labs and less error-prone.
+这是在下于2024年秋学习编译原理时的Lab记录。
 
-We provide you all the codes of all labs at one time. In each lab, you only
-need to code in some of the directories.
+本仓库包含**大量注释**，基本涵盖自己写的所有代码块，以及一些对Lab框架的理解。这些注释是在下作为初学者学习编译原理时留下的。
 
-## Difference Between C Labs and C++ Labs
+**如果您写Lab时对知识的掌握还不太充分，这些注释也许能帮助您理解**。如果想查看在下留下的所有注释，**搜索/// KH-note**即可。在下留的注释均以三斜杠开头以作区分。
 
-1. Tiger compiler in C++ uses [flexc++](https://fbb-git.gitlab.io/flexcpp/manual/flexc++.html) and [bisonc++](https://fbb-git.gitlab.io/bisoncpp/manual/bisonc++.html) instead of flex and bison because flexc++ and bisonc++ is more flexc++ and bisonc++ are able to generate pure C++ codes instead of C codes wrapped in C++ files.
+这些注释以Chinglish写成，您看得懂就行QAQ
 
-2. Tiger compiler in C++ uses namespace for modularization and uses inheritance and polymorphism to replace unions used in the old labs.
+## 重要事项说明
 
-3. Tiger compiler in C++ uses CMake instead of Makefile to compile and build the target.
+自2024年开始，编译原理Lab不使用虎书自定义的IR，而是使用LLVM的中间表示。因此本仓库的实现与先辈们会有亿些不同之处，但Lab4及之前的应该不会有很大差异。
 
-<!---4. We've introduced lots of modern C++-style codes into tiger compiler, e.g., smart pointers, RAII, RTTI. To get familiar with the features of modern C++ and get recommendations for writing code in modern C++ style, please refer to [this doc](https://ipads.se.sjtu.edu.cn/courses/compilers/tiger-compiler-cpp-style.html) on our course website.-->
+Lab6的主题是代码生成，也就是将中间表示翻译为机器码的过程。本人学习时，这部分可以用自己生成的中间表示，也可以用测试样例中现成的。  
+**Lab6尚有一个未解决的Bug，导致使用自己生成的中间表示时有一个测试样例无法通过。**
 
-## Installing Dependencies
+## 不足之处
 
-We provide you a Docker image that has already installed all the dependencies. You can compile your codes directly in this Docker image. Visit [https://ipads.se.sjtu.edu.cn/courses/compilers/tiger-compiler-environment.html](https://ipads.se.sjtu.edu.cn/courses/compilers/tiger-compiler-environment.html) to find a detailed guide.
+这是在下在后续的Lab发现的问题，其中部分已经在后续Lab中解决。
 
-## Compiling and Debugging
-
-There are five makeable targets in total, including `test_slp`, `test_lex`, `test_parse`, `test_semant`, `test_translate_llvm`, `test_codegen` and `tiger-compiler`.
-
-1. Run container environment and attach to it, here is a simple example:
-
-```bash
-# Run container and directly attach to it
-docker run -it --privileged -p 2222:22 \
-    -v $(pwd):/home/stu/tiger-compiler ipadsse302/tigerlabs_env:latest  # or `make docker-run`
-# Or run container in the backend and attach to it later
-docker run -dt --privileged -p 2222:22 \
-    -v $(pwd):/home/stu/tiger-compiler ipadsse302/tigerlabs_env:latest
-docker attach ${YOUR_CONTAINER_ID}
-```
-
-You can also follow the guide on [https://ipads.se.sjtu.edu.cn/courses/compilers/tiger-compiler-environment.html](https://ipads.se.sjtu.edu.cn/courses/compilers/tiger-compiler-environment.html) to build a container. It offers a user-friendly script for Windows users and addresses most networking issues related to Docker Hub.
-
-2. Build in the container environment
-
-```bash
-mkdir build && cd build && cmake .. && make test_xxx  # or `make build`
-```
-
-3. Debug using gdb or any IDEs
-
-```bash
-gdb test_xxx # e.g. `gdb test_slp`
-```
-
-## Testing Your Labs
-
-Use `make`
-```bash
-make gradelabx
-```
-
-You can test all the labs by
-```bash
-make gradeall
-```
-
-## Submitting Your Labs
-
-
-Push your code to your GitLab repo
-```bash
-git add somefiles
-git commit -m "A message"
-git push
-```
-
-**Note, each experiment has a separate branch, such as `lab1`. When you finish the `lab1`, you must submit the code to the `lab1` branch. Otherwise, you won't get a full score in your lab.**
-
-## Formatting Your Codes
-
-We provide an LLVM-style .clang-format file in the project directory. You can use it to format your code.
-
-Use `clang-format` command
-```
-find . \( -name "*.h" -o -iname "*.cc" \) | xargs clang-format -i -style=file  # or make format
-```
-
-or config the clang-format file in your IDE and use the built-in format feature in it.
-
-## Other Commands
-
-Utility commands can be found in the `Makefile`. They can be directly run by `make xxx` in a Unix shell. Windows users cannot use the `make` command, but the contents of `Makefile` can still be used as a reference for the available commands.
-
-## Contributing to Tiger Compiler
-
-You can post questions, issues, feedback, or even MR proposals through [our main GitLab repository](https://ipads.se.sjtu.edu.cn:2020/compilers-2021/compilers-2021/issues). We are rapidly refactoring the original C tiger compiler implementation into modern C++ style, so any suggestion to make this lab better is welcomed.
-
-## External Documentations
-
-You can read external documentations on our course website:
-
-- [Lab Assignments](https://ipads.se.sjtu.edu.cn/courses/compilers/labs.shtml)
-- [Environment Configuration of Tiger Compiler Labs](https://ipads.se.sjtu.edu.cn/courses/compilers/tiger-compiler-environment.html)
-<!---- [Tiger Compiler in Modern C++ Style](https://ipads.se.sjtu.edu.cn/courses/compilers/tiger-compiler-cpp-style.html)-->
-
+- semant部分，OpExp的检查不够细致。Translation阶段并不提供字符串和结构体的大小比较，仅提供EQ和NEQ。
+- semant部分，BreakExp后不应当有其他无法执行的Exp。
+- semant部分，假设有一if-then-else语句，then子句break，则不应当视为有误(该死的break)。
+- translation部分，op_need_cond解决方案无法较好地解决使用if表示i1条件的问题，也没有处理一个i32和一个i1的比较。
+- lab5-part1的代码异常混乱，我严重怀疑其中还有不少没考虑到的情况，虽然它足以通过lab测试。
+- lab5-part2有一些过分tricky的处理，严重依赖tiger语言的feature。
+- lab5-part2的cmp条件翻译可能有漏洞。
+- codegen部分，取结构体成员地址时在下没有采用通用的方法，而是写了一个利用tiger语言feature的偷懒版本。
